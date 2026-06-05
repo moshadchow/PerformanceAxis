@@ -43,6 +43,20 @@ describe('validationService', () => {
     ])
   })
 
+  it('rejects empty date strings', () => {
+    expect(validateDateRange({ fromDate: '', toDate: '' }).errors).toEqual([
+      { field: 'fromDate', message: 'Date is required.', code: 'DATE_REQUIRED' },
+      { field: 'toDate', message: 'Date is required.', code: 'DATE_REQUIRED' },
+    ]);
+  });
+
+  it('rejects whitespace only date strings', () => {
+    expect(validateDateRange({ fromDate: '   ', toDate: '  ' }).errors).toEqual([
+      { field: 'fromDate', message: 'Date is required.', code: 'DATE_REQUIRED' },
+      { field: 'toDate', message: 'Date is required.', code: 'DATE_REQUIRED' },
+    ]);
+  });
+
   it('creates validation API errors', () => {
     const validation = validateDateRange({ fromDate: 'bad', toDate: '2026-01-31' })
 
