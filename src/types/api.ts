@@ -2,6 +2,7 @@ import type { LoginResponse } from './auth'
 import type { DateRange } from './common'
 
 export type { LoginResponse }
+
 export interface BrokerSummaryResponse {
   totalExecutionReport: number
   totalTrade: number
@@ -26,4 +27,17 @@ export type ApiEndpointKey = 'broker-summary' | 'market-trade-info'
 export interface ApiRequestKey extends Partial<DateRange> {
   endpoint: ApiEndpointKey
   brokerId?: string
+  stockExchange?: string
+}
+
+export type ApiCacheKeyPart = string | number | boolean | null | undefined
+
+export interface ApiCacheKeyParts extends Record<string, ApiCacheKeyPart> {
+  endpoint: string
+}
+
+export type BrokerSummaryRequest = DateRange
+
+export interface MarketTradeInfoRequest {
+  stockExchange: string
 }

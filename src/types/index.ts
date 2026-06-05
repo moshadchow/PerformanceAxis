@@ -1,8 +1,12 @@
 export type { AuthErrorCode, AuthState, JwtToken, LoginCredentials, LoginResponse } from './auth'
 export type {
+  ApiCacheKeyPart,
+  ApiCacheKeyParts,
   ApiEndpointKey,
   ApiRequestKey,
+  BrokerSummaryRequest,
   BrokerSummaryResponse,
+  MarketTradeInfoRequest,
   MarketTradeInfoResponse,
 } from './api'
 export type { Broker, BrokerId, BrokerKey } from './broker'

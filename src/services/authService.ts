@@ -1,4 +1,5 @@
 import { clearAuthToken, getAuthState, jwtTokenPattern, setAuthToken } from '../store/appStore'
+import { clearCache } from './cacheService'
 import type { LoginCredentials } from '../types/auth'
 import { postLogin } from '../api/authApi'
 
@@ -19,4 +20,5 @@ export async function login(credentials: LoginCredentials): Promise<void> {
 
 export function logout(): void {
   clearAuthToken()
+  clearCache()
 }

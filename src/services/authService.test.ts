@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { login, logout, isTokenValid } from './authService'
 import { getAuthState, resetAppStoreForTests, setAuthToken } from '../store/appStore'
-import { apiRequest } from '../api/client'
+import { apiRequest, resetApiClientForTests } from '../api/client'
+import { getCachedValue, resetCacheForTests, setCachedValue } from './cacheService'
 
 const validToken = 'header.payload.signature'
 
@@ -16,6 +17,8 @@ function pastIsoTimestamp(): string {
 describe('authService', () => {
   beforeEach(() => {
     resetAppStoreForTests()
+    resetCacheForTests()
+    resetApiClientForTests()
     vi.restoreAllMocks()
   })
 
@@ -35,12 +38,14 @@ describe('authService', () => {
     expect(isTokenValid()).toBe(true)
   })
 
-  it('clears auth state on logout', () => {
+  it('clears auth state and cached API data on logout', () => {
     setAuthToken(validToken, futureIsoTimestamp())
+    setCachedValue('protected', { value: 'cached' })
 
     logout()
 
     expect(getAuthState()).toEqual({ token: null, expiresAt: null, isAuthenticated: false })
+    expect(getCachedValue('protected')).toBeNull()
   })
 
   it('stores token after successful login', async () => {
@@ -83,6 +88,8 @@ describe('authService', () => {
 describe('authService integration guard', () => {
   beforeEach(() => {
     resetAppStoreForTests()
+    resetCacheForTests()
+    resetApiClientForTests()
     vi.restoreAllMocks()
   })
 
