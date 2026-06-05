@@ -7,7 +7,7 @@ export interface DateRange {
 
 export type ApiRequestStatus = 'idle' | 'loading' | 'success' | 'empty' | 'error'
 
-export type ApiErrorCategory = 'auth' | 'client' | 'network' | 'server' | 'unknown'
+export type ApiErrorCategory = 'auth' | 'cancelled' | 'client' | 'network' | 'server' | 'unknown' | 'validation'
 
 export interface ApiError {
   message: string
