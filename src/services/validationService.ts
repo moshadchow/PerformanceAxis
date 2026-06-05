@@ -34,16 +34,25 @@ export function createValidationApiError(validation: ValidationResult): ApiError
 function validateDateField(field: keyof DateRange, value: string): ValidationError[] {
   const errors: ValidationError[] = []
 
+  // Reject empty or whitespace‑only strings
+  if (!value || value.trim() === '') {
+    errors.push({ field, message: 'Date is required.', code: 'DATE_REQUIRED' })
+    return errors
+  }
+
+  // Validate format (YYYY‑MM‑DD)
   if (!datePattern.test(value)) {
     errors.push({ field, message: 'Date must use YYYY-MM-DD format.', code: 'DATE_FORMAT_INVALID' })
     return errors
   }
 
+  // Validate calendar date (e.g., reject 2026‑02‑31)
   if (!isValidCalendarDate(value)) {
     errors.push({ field, message: 'Date must be a valid calendar date.', code: 'DATE_FORMAT_INVALID' })
     return errors
   }
 
+  // Future date check
   if (value > getTodayDateString()) {
     errors.push({ field, message: 'Date cannot be in the future.', code: 'DATE_IN_FUTURE' })
   }
