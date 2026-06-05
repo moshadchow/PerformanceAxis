@@ -1,3 +1,5 @@
+import BrokerSettingsPage from './pages/BrokerSettings/BrokerSettingsPage';
+
 const plannedCapabilities = [
   'Broker performance dashboard',
   'Broker settings management',
@@ -22,6 +24,7 @@ function App() {
           ))}
         </ul>
       </section>
+      <BrokerSettingsPage />
     </main>
   )
 }
