@@ -1,5 +1,7 @@
+import type { LoginResponse } from './auth'
 import type { DateRange } from './common'
 
+export type { LoginResponse }
 export interface BrokerSummaryResponse {
   totalExecutionReport: number
   totalTrade: number

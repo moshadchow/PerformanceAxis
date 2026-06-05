@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { Broker } from '../../types/broker';
 import type { ValidationError } from '../../types/common';
 
@@ -11,19 +11,10 @@ interface Props {
 }
 
 const BrokerForm: React.FC<Props> = ({ mode, initialBroker, validationErrors, onSubmit, onCancel }) => {
-  const [key, setKey] = useState('');
-  const [brokerId, setBrokerId] = useState('');
-
-  // Populate fields when editing or when switching modes
-  useEffect(() => {
-    if (mode === 'edit' && initialBroker) {
-      setKey(initialBroker.key);
-      setBrokerId(initialBroker.brokerId);
-    } else {
-      setKey('');
-      setBrokerId('');
-    }
-  }, [mode, initialBroker]);
+  const [key, setKey] = useState(() => (mode === 'edit' && initialBroker ? initialBroker.key : ''));
+  const [brokerId, setBrokerId] = useState(() =>
+    mode === 'edit' && initialBroker ? initialBroker.brokerId : '',
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

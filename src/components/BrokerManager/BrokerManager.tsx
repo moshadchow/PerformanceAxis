@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import type { Broker, BrokerId } from '../../types/broker';
 import type { ValidationError } from '../../types/common';
 import {
@@ -12,11 +12,9 @@ import {
 import BrokerForm from './BrokerForm';
 import BrokerList from './BrokerList';
 
-type Mode = 'add' | 'edit';
-
 const BrokerManager: React.FC = () => {
-  const [brokers, setBrokers] = useState<Broker[]>([]);
-  const [activeBroker, setActiveBroker] = useState<Broker | null>(null);
+  const [brokers, setBrokers] = useState<Broker[]>(() => getAllBrokers());
+  const [activeBroker, setActiveBroker] = useState<Broker | null>(() => getActiveBroker());
   const [editingBroker, setEditingBroker] = useState<Broker | null>(null);
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
@@ -26,11 +24,6 @@ const BrokerManager: React.FC = () => {
     setEditingBroker(null);
     setValidationErrors([]);
   };
-
-  useEffect(() => {
-    refreshBrokers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleAdd = (input: { key: string; brokerId: string }) => {
     const result = addBroker(input);
@@ -83,6 +76,7 @@ const BrokerManager: React.FC = () => {
     <section>
       <h2>Broker Management</h2>
       <BrokerForm
+        key={editingBroker?.brokerId ?? 'add'}
         mode={editingBroker ? 'edit' : 'add'}
         initialBroker={editingBroker ?? undefined}
         validationErrors={validationErrors}
